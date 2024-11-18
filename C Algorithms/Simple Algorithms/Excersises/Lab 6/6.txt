@@ -1,0 +1,10 @@
+1.
+A and B both output the same:
+Hi. This is case 0
+Hi. This is case 1
+
+2.
+i = 2 does not impact the code because the switch statement skips it and goes to case 0, or case 1 straight away.
+
+3.
+In Program A, the while loop only loops once, in Program B, the while loop loops twice.
