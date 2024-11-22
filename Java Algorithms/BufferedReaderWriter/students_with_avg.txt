@@ -1,0 +1,8 @@
+ID, Name, Marks1, Marks2, Marks3, Average, Grade
+101, Alice, 85, 78, 92, 85.00, B
+102, Bob, 90, 88, 84, 87.33, B
+103, Carol, 75, 72, 70, 72.33, C
+104, David, 95, 92, 96, 94.33, A
+105, Eve, 60, 65, 62, 62.33, D
+
+Top Scorer: David, Average: 94.33, Grade: A

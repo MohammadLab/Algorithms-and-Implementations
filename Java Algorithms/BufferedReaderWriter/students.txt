@@ -1,0 +1,6 @@
+ID, Name, Marks1, Marks2, Marks3
+101, Alice, 85, 78, 92
+102, Bob, 90, 88, 84
+103, Carol, 75, 72, 70
+104, David, 95, 92, 96
+105, Eve, 60, 65, 62
