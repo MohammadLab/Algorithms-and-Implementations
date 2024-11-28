@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class StudentMarks {
+public class StudfentMarks {
 	static class Student {
 		String id;
 		String name;
@@ -20,7 +20,7 @@ public class StudentMarks {
 		}
 
 		void calculateAverage() {
-			this.average = Math.round((marks1 + marks2 + marks3) / 3.0 * 100.0) / 100.0;
+			this.average = (marks1 + marks2 + marks3) / 3.0;
 		}
 
 		void assignGrade() {
@@ -37,39 +37,40 @@ public class StudentMarks {
 		}
 	}
 
-	public static List<Student> readAndDisplayFile(String filename) {
+	public static List<Student> readStudent(String filename) {
 		List<Student> students = new ArrayList<>();
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 			String line;
-			boolean firstLine = true;
+			System.out.println("ID, Name, Marks1, Marks2, Marks3");
+
+			reader.readLine();
+
 			while ((line = reader.readLine()) != null) {
-				if (firstLine) {
-					firstLine = false;
-					System.out.println(line);
-					continue;
-				}
-				System.out.println(line);
 				String[] parts = line.split(", ");
+				String id = parts[0];
+				String name = parts[1];
 				int marks1 = validateMarks(Integer.parseInt(parts[2].trim()));
 				int marks2 = validateMarks(Integer.parseInt(parts[3].trim()));
 				int marks3 = validateMarks(Integer.parseInt(parts[4].trim()));
 
-				students.add(new Student(parts[0].trim(), parts[1].trim(), marks1, marks2, marks3));
+				students.add(new Student(id, name, marks1, marks2, marks3));
+				System.out.println(id + ", " + name + ", " + marks1 + ", " + marks2 + ", " + marks3);
 			}
 		} catch (IOException e) {
-			System.out.println("Error reading file: " + e.getMessage());
+			System.out.println("Error: " + e);
 		}
 		return students;
 	}
 
-	private static int validateMarks(int marks) {
+	static int validateMarks(int marks) {
 		if (marks < 0 || marks > 100) {
-			throw new IllegalArgumentException("Marks must be between 0 and 100");
+			System.out.println("Marks must be between 0 and 100");
+			return -1;
 		}
 		return marks;
 	}
 
-	public static void writeStudentsToFile(List<Student> students, String filename) {
+	public static void writeStudent(List<Student> students, String filename) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
 			writer.write("ID, Name, Marks1, Marks2, Marks3, Average, Grade\n");
 
@@ -83,13 +84,18 @@ public class StudentMarks {
 					topScorer.grade));
 
 		} catch (IOException e) {
-			System.out.println("Error writing to file: " + e.getMessage());
+			System.out.println("Error: " + e);
 		}
 	}
 
 	public static Student findTopScorer(List<Student> students) {
-		return students.stream().max(Comparator.comparingDouble(s -> s.average))
-				.orElseThrow(() -> new RuntimeException("No students found"));
+		Student topStudent = students.get(0);
+		for (Student student : students) {
+			if (student.average > topStudent.average) {
+				topStudent = student;
+			}
+		}
+		return topStudent;
 	}
 
 	public static void main(String[] args) {
@@ -99,13 +105,13 @@ public class StudentMarks {
 			writer.write("102, Bob, 90, 88, 84\n");
 			writer.write("103, Carol, 75, 72, 70\n");
 			writer.write("104, David, 95, 92, 96\n");
-			writer.write("105, Eve, 60, 65, 62\n");
+			writer.write("105, Eve, 1111, 65, 62\n");
 		} catch (IOException e) {
-			System.out.println("Error creating initial file: " + e.getMessage());
+			System.out.println("Eror:" + e);
 			return;
 		}
 
-		List<Student> students = readAndDisplayFile("students.txt");
-		writeStudentsToFile(students, "students_with_avg.txt");
+		List<Student> students = readStudent("students.txt");
+		writeStudent(students, "students_with_avg.txt");
 	}
 }
